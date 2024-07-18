@@ -9,23 +9,122 @@
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-  {{#if logged_in}}
-    <form action="/api/users/logout" method="POST">
-      <button type="submit" class="btn btn-danger">Logout</button>
-    </form>
-    <form action="/api/posts" method="POST">
-      <textarea name="content" placeholder="What's on your mind?" required></textarea>
-      <button type="submit" class="btn btn-primary">Post</button>
-    </form>
-    {{#each posts}}
-      <div>
-        <h3>{{this.user.email}}</h3>
-        <p>{{this.content}}</p>
-        <small>{{format_date this.createdAt}}</small>
+  <!-- Header -->
+  <header class="bg-light p-3 mb-4">
+    <div class="container">
+      <h1 class="display-4">My Social Media</h1>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Home</a>
+        {{#if logged_in}}
+          <form id="logout-form" class="form-inline ml-auto" action="/api/users/logout" method="POST">
+            <button type="submit" class="btn btn-outline-danger">Logout</button>
+          </form>
+        {{else}}
+          <a class="btn btn-outline-primary ml-auto" href="/login">Login</a>
+        {{/if}}
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- LARGE BANNER -->
+    <div class="container">
+      <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary">
+        <div class="col-lg-6 px-0 text-center">
+          <h1 class="display-4 fst-italic">Welcome to Simple Social</h1>
+          <p class="lead my-3"></p>
+        </div>
       </div>
-    {{/each}}
-  {{else}}
-    <a href="/login">Login</a>
-  {{/if}}
+    </div>
+    <!-- END LARGE BANNER -->
+
+    {{#if logged_in}}
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <!-- CREATE POST -->
+          <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <div class="col p-4 d-flex flex-column position-static">
+              <h3 class="mb-4">Create a post</h3>
+              <p class="card-text mb-4">Let your friends know what you're up to!</p>
+              <form action="/api/posts" method="POST">
+                <div class="input-group mb-3">
+                  <textarea class="form-control" name="content" placeholder="What's on your mind?" aria-label="Example text with button addon" aria-describedby="button-addon1" rows="1" required></textarea>
+                  <button class="btn btn-outline-secondary" type="submit" id="button-addon1">Post</button>
+                </div>
+              </form>
+            </div>
+            <div class="col-auto d-none d-lg-block"></div>
+          </div>
+          <!-- END CREATE POST -->
+
+          <!-- CARD -->
+          {{#each posts}}
+          <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <div class="col p-4 d-flex flex-column position-static">
+              <h3 class="mb-4">{{this.user.email}}</h3>
+              <p class="card-text mb-4">{{this.content}}</p>
+              <small>{{format_date this.createdAt}}</small>
+            </div>
+            <div class="col-auto d-none d-lg-block"></div>
+          </div>
+          {{/each}}
+          <!-- END CARD -->
+        </div>
+      </div>
+    </div>
+    {{else}}
+    <div class="alert alert-warning" role="alert">
+      You need to <a href="/login" class="alert-link">login</a> to see the posts.
+    </div>
+    {{/if}}
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-light p-3 mt-4">
+    <div class="container">
+      <p class="text-center">&copy; 2024 My Social Media. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Include Bootstrap JS and dependencies for modal functionality -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+  <script>
+    document.getElementById('post-form').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      const formData = new FormData(this);
+      const data = {
+        content: formData.get('content')
+      };
+      const response = await fetch('/api/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+      if (response.ok) {
+        window.location.reload();  // Refresh the page to display the new post
+      } else {
+        alert('Failed to create post');
+      }
+    });
+
+    document.getElementById('logout-form').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      const response = await fetch('/api/users/logout', {
+        method: 'POST'
+      });
+      if (response.ok) {
+        window.location.href = '/login';
+      } else {
+        alert('Failed to log out');
+      }
+    });
+  </script>
 </body>
 </html>

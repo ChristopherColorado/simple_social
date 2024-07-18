@@ -1,6 +1,10 @@
-{{!-- Home Page --}}
 <div class="container">
-  <h1>Welcome to Social Media App</h1>
-  <a href="/login" class="btn btn-primary">Log In</a>
-  <a href="/register" class="btn btn-secondary">Register</a>
+  <h1>Welcome to the Social Media App</h1>
+  {{#if logged_in}}
+    <p>You are logged in!</p>
+    <a href="/logout" class="btn btn-primary">Logout</a>
+  {{else}}
+    <a href="/login" class="btn btn-primary">Login</a>
+    <a href="/register" class="btn btn-secondary">Register</a>
+  {{/if}}
 </div>

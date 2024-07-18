@@ -1,10 +1,16 @@
-<div class="container">
-  <h1>Welcome to the Social Media App</h1>
-  {{#if logged_in}}
-    <p>You are logged in!</p>
-    <a href="/logout" class="btn btn-primary">Logout</a>
-  {{else}}
-    <a href="/login" class="btn btn-primary">Login</a>
-    <a href="/register" class="btn btn-secondary">Register</a>
-  {{/if}}
-</div>
+{{#if logged_in}}
+  <form action="/api/posts" method="POST">
+    <textarea name="content" placeholder="What's on your mind?" required></textarea>
+    <button type="submit">Post</button>
+  </form>
+  <a href="/api/users/logout">Logout</a>
+  {{#each posts}}
+    <div>
+      <h3>{{this.user.email}}</h3>
+      <p>{{this.content}}</p>
+      <small>{{this.createdAt}}</small>
+    </div>
+  {{/each}}
+{{else}}
+  <a href="/login">Login</a>
+{{/if}}

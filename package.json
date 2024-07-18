@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "A simple social media full stack build.",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+"scripts": {
+  "schema": "psql -U postgres -f db/schema.sql",
+  "seed": "node db/seed.js"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",

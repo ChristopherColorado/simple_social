@@ -22,15 +22,17 @@ const sess = {
 
 app.use(session(sess));
 
+// Middleware for parsing JSON and URL-encoded data
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Middleware for serving static files
+app.use(express.static(path.join(__dirname, "public")));
+
 // Set up Handlebars.js engine
 const hbs = exphbs.create({});
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
-
-// Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
 app.use(require("./controllers/"));

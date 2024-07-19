@@ -70,13 +70,14 @@ Simple Social Media Web Application is a basic social media platform that allows
    - Run the following command to create the database:
 
    ```bash
-   npx sequelize db:create
+   psql -U postgres
+   \i schema.sql
    ```
 
 5. **Seed the database:**
 
    ```bash
-   node db/seed.js
+   node sync/syncModels.sql
    ```
 
 6. **Start the server:**

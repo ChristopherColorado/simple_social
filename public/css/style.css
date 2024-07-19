@@ -1,3 +1,43 @@
+.scrollable-posts {
+  max-height: 60vh; /* Adjust the height as needed */
+  overflow-y: auto;
+}
+
+.post-card {
+  margin-bottom: 1rem;
+}
+
+html, body {
+  height: 100%;
+}
+
+main {
+  flex-grow: 1;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.jumbotron {
+  margin-top: 5rem; /* Adjust based on your fixed navbar height */
+}
+
+.container-fluid {
+  width: 100%;
+  padding: 0 2rem; /* Optional: adjust padding as needed */
+}
+
+.card.post-card {
+  width: 100%;
+}
+
+input, textarea {
+  width: 100%;
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -52,4 +92,14 @@ body {
   
   .modal-body {
     text-align: center;
+  }
+
+  .scrollable-posts {
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 15px;
+  }
+  
+  .post-card {
+    margin-bottom: 1rem;
   }

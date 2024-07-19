@@ -28,9 +28,11 @@ footer {
   background-color: #000000;
   color: #fff; /* Adjust based on your fixed navbar height */
 }
+
 .logo {
   width: 50px;
 }
+
 .mt-5 {
   width: 350px;
 }
@@ -109,21 +111,38 @@ button:hover {
   overflow-y: auto;
   padding-right: 15px;
 }
+
 .footer {
   width: 3000px !important;
 }
+
 .img-fluid {
   max-width: 100%;
   height: auto;
   width: 120px;
 }
+
 .bg-dark {
   background-color: #000000 !important;
 }
+
 .enter-card {
   padding-top: 500px;
 }
+
 .container-fluid {
   width: 100%;
   padding-top: 17rem;
+}
+
+.jumbotron {
+  margin-top: 5rem; /* Aligns with the jumbotron */
+}
+
+.container {
+  margin-top: 5rem; /* Align the container with the jumbotron */
+}
+
+.container-fluid {
+  padding-top: 2rem; /* Additional padding to align with jumbotron */
 }

@@ -7,8 +7,7 @@
   margin-bottom: 1rem;
 }
 
-html,
-body {
+html, body {
   height: 100%;
 }
 
@@ -46,8 +45,7 @@ footer {
   width: 100%;
 }
 
-input,
-textarea {
+input, textarea {
   width: 100%;
 }
 
@@ -113,7 +111,7 @@ button:hover {
 }
 
 .footer {
-  width: 3000px !important;
+  width: 100%;
 }
 
 .img-fluid {
@@ -132,7 +130,7 @@ button:hover {
 
 .container-fluid {
   width: 100%;
-  padding-top: 17rem;
+  padding-top: 2rem;
 }
 
 .jumbotron {
@@ -145,4 +143,17 @@ button:hover {
 
 .container-fluid {
   padding-top: 2rem; /* Additional padding to align with jumbotron */
+}
+
+@media (max-width: 768px) {
+  .jumbotron {
+    width: 100%;
+  }
+  .mt-5 {
+    width: 100%;
+  }
+  .container {
+    width: 100%;
+    margin-top: 0;
+  }
 }

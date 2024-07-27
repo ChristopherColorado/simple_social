@@ -33,7 +33,7 @@ Simple Social Media Web Application is a basic social media platform that allows
 - Sequelize ORM
 - Handlebars.js
 - Bootstrap
-- EmailJS (for future email notifications)
+- EmailJS (for welcome email)
 - Render (for deployment)
 
 ## Installation

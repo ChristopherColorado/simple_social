@@ -1,147 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home</title>
-  <!-- Include Bootstrap CSS for styling -->
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <img src="/img/Screenshot%202024-07-18%20at%2010.10.23%20PM%20(2).jpg" alt="Screenshot" class="header-image img-fluid" />
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/">Home</a>
-        </li>
-        {{#if logged_in}}
-          <li class="nav-item">
-            <form id="logout-form" class="form-inline" action="/api/users/logout" method="POST">
-              <button type="submit" class="btn btn-outline-danger">Logout</button>
-            </form>
-          </li>
-        {{else}}
-          <li class="nav-item">
-            <a class="btn btn-outline-primary" href="/login">Login</a>
-          </li>
-        {{/if}}
-      </ul>
-    </div>
-  </nav>
-
-  <!-- Jumbotron -->
-  <div class="container mt-5">
-    <div class="jumbotron text-center">
-      <h1 class="display-4">Welcome to Simple Social</h1>
-      <p class="lead">Welcome back to simple.</p>
-    </div>
-  </div>
-
-  <!-- Main Content -->
-  <main class="container-fluid d-flex flex-column">
-    {{#if logged_in}}
-      <!-- CREATE POST -->
-      <div class="card post-card mb-4" style="margin-top: 5rem;">
-        <div class="card-body">
-          <h3 class="card-title">Create a post</h3>
-          <p class="card-text">Let your friends know what you're up to!</p>
-          <form id="post-form">
-            <div class="input-group mb-3">
-              <textarea class="form-control" name="content" placeholder="What's on your mind?" aria-label="Example text with button addon" aria-describedby="button-addon1" rows="1" required></textarea>
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="submit" id="button-addon1">Post</button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-      <!-- END CREATE POST -->
-
-      <!-- SCROLLABLE POSTS SECTION -->
-      <div class="scrollable-posts flex-grow-1">
-        {{#each posts}}
-          <div class="card post-card mb-4">
-            <div class="card-body">
-              <h3 class="card-title">{{this.user.email}}</h3>
-              <p class="card-text">{{this.content}}</p>
-              <small class="text-muted">{{format_date this.createdAt}}</small>
+<!-- Main Content -->
+<main
+  class="container-fluid d-flex flex-column"
+  style="margin-top: 5rem; margin-bottom: 5rem;"
+>
+  {{#if logged_in}}
+    <!-- CREATE POST -->
+    <div
+      class="card post-card mb-4"
+      style="margin-top: 25rem; margin-bottom: 5rem;"
+    >
+      <div class="card-body">
+        <h3 class="card-title">Create a post</h3>
+        <p class="card-text">Let your friends know what you're up to!</p>
+        <form id="post-form">
+          <div class="input-group mb-3">
+            <textarea
+              class="form-control"
+              name="content"
+              placeholder="What's on your mind?"
+              aria-label="Example text with button addon"
+              aria-describedby="button-addon1"
+              rows="1"
+              required
+            ></textarea>
+            <div class="input-group-append">
+              <button
+                class="btn btn-outline-secondary"
+                type="submit"
+                id="button-addon1"
+              >Post</button>
             </div>
           </div>
-        {{/each}}
+        </form>
       </div>
-      <!-- END SCROLLABLE POSTS SECTION -->
-    {{else}}
-      <div class="alert alert-warning text-center" role="alert">
-        You need to <a href="/login" class="alert-link">login</a> to see the posts.
-      </div>
-    {{/if}}
-  </main>
-
-  <!-- Footer -->
-  <footer class="bg-light p-3 mt-auto fixed-bottom">
-    <div class="container">
-      <p class="text-center">&copy; 2024 My Social Media. All rights reserved.</p>
     </div>
-  </footer>
+    <!-- END CREATE POST -->
 
-  <!-- Include Bootstrap JS and dependencies -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const postForm = document.getElementById('post-form');
-      if (postForm) {
-        postForm.addEventListener('submit', async function(event) {
-          event.preventDefault();
-          const formData = new FormData(this);
-          const data = { content: formData.get('content') };
-          try {
-            const response = await fetch('/api/posts', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(data)
-            });
-            if (response.ok) {
-              window.location.reload(); // Refresh the page to display the new post
-            } else {
-              const errorData = await response.json();
-              alert(`Failed to create post: ${errorData.message}`);
-            }
-          } catch (error) {
-            console.error('Error:', error);
-            alert('Failed to create post');
-          }
-        });
-      }
-
-      const logoutForm = document.getElementById('logout-form');
-      if (logoutForm) {
-        logoutForm.addEventListener('submit', async function(event) {
-          event.preventDefault();
-          try {
-            const response = await fetch('/api/users/logout', {
-              method: 'POST'
-            });
-            if (response.ok) {
-              window.location.href = '/login';
-            } else {
-              alert('Failed to log out');
-            }
-          } catch (error) {
-            console.error('Error:', error);
-            alert('Failed to log out');
-          }
-        });
-      }
-    });
-  </script>
-</body>
-</html>
+    <!-- SCROLLABLE POSTS SECTION -->
+    <div class="scrollable-posts flex-grow-1" style="margin-bottom: 10rem;">
+      {{#each posts}}
+        <div class="card post-card mb-4">
+          <div class="card-body">
+            <h4 class="card-title">{{this.user.email}}</h4>
+            <p class="card-text">{{this.content}}</p>
+            <small class="text-muted">{{format_date this.createdAt}}</small>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+    <!-- END SCROLLABLE POSTS SECTION -->
+  {{else}}
+    <div class="alert alert-warning text-center" role="alert">
+      You need to
+      <a href="/login" class="alert-link">login</a>
+      to see the posts.
+    </div>
+  {{/if}}
+</main>
+<script src="/js/app.js"></script>
